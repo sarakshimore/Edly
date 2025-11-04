@@ -5,6 +5,7 @@ import { Lecture } from "../models/lecture.model.js";
 import { User } from "../models/user.model.js";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const url = process.env.FRONTEND_URL
 
 export const createCheckoutSession = async (req, res) => {
   try {
@@ -39,8 +40,8 @@ export const createCheckoutSession = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:5173/course-progress/${courseId}`, // once payment successful redirect to course progress page
-      cancel_url: `http://localhost:5173/course-detail/${courseId}`,
+      success_url: url+`/course-progress/${courseId}`, // once payment successful redirect to course progress page
+      cancel_url: url+`/course-detail/${courseId}`,
       metadata: {
         courseId: courseId,
         userId: userId,
