@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+const PORT = import.meta.env.VITE_PORT;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || `http://localhost:${PORT}`;
+
 const ChatBot = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
@@ -15,7 +18,7 @@ const ChatBot = () => {
         setLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:8080/chat", { message: input });
+            const response = await axios.post(BACKEND_URL+"/chat", { message: input });
             setMessages([...newMessages, { text: response.data.reply, sender: "bot" }]);
         } catch (error) {
             console.error("Error:", error);
