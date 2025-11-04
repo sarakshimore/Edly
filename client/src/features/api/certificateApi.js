@@ -8,7 +8,13 @@ export const certificateApi = createApi({
   reducerPath: "certificateApi",
   baseQuery: fetchBaseQuery({
     baseUrl: CERTIFICATE_API,
-    credentials: "include",
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("edly_token"); // read token
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getCertificate: builder.query({

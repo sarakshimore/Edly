@@ -63,27 +63,35 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (registerIsSuccess && registerData) {
-      toast.success(registerData.message || "Signup successful.");
+  if (registerIsSuccess && registerData) {
+    toast.success(registerData.message || "Signup successful.");
+  }
+
+  if (registerError) {
+    toast.error(registerError?.data?.message || "Signup Failed");
+  }
+
+  if (loginIsSuccess && loginData) {
+    // Save token if backend returns it
+    if (loginData.token) {
+      localStorage.setItem("edly_token", loginData.token);
     }
-    if (registerError) {
-      toast.error(registerError.data.message || "Signup Failed");
-    }
-    if (loginIsSuccess && loginData) {
-      toast.success(loginData.message || "Login successful.");
-      navigate("/");
-    }
-    if (loginError) {
-      toast.error(loginError.data.message || "Login Failed");
-    }
-  }, [
-    loginIsLoading,
-    registerIsLoading,
-    loginData,
-    registerData,
-    loginError,
-    registerError,
-  ]);
+    toast.success(loginData.message || "Login successful.");
+    navigate("/");
+  }
+
+  if (loginError) {
+    toast.error(loginError?.data?.message || "Login Failed");
+  }
+}, [
+  loginIsSuccess,
+  registerIsSuccess,
+  loginData,
+  registerData,
+  loginError,
+  registerError,
+]);
+
 
   return (
     <div className="flex items-center w-full justify-center mt-20">

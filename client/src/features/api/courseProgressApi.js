@@ -8,7 +8,13 @@ export const courseProgressApi = createApi({
   reducerPath: "courseProgressApi",
   baseQuery: fetchBaseQuery({
     baseUrl: COURSE_PROGRESS_API,
-    credentials: "include",
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem("edly_token"); // read token
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getCourseProgress: builder.query({
